@@ -68,6 +68,17 @@
         </nav>
       </header>
     
+
+      <script>
+        function header() {
+          return {
+            isNavbarHidden: true,
+            toggleNavbar() {
+              this.isNavbarHidden = !this.isNavbarHidden;
+            }
+          }
+        }
+      </script>
     
 </body>
 </html>
