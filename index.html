@@ -83,18 +83,21 @@
             </div>
           </div>
         </nav>
-      </header>
+    </header>
 
-      <main x-data="app()" x-init="init()" class="container mx-auto mt-8">
-        <div class="mb-8 flex justify-between">
+    <main x-data="app()" x-init="init()" class="container mx-auto mt-8">
+        <div class="grid lg:flex gap-y-4 gap-x-48 lg:items-start mt-3 mx-auto justify-center">
+
       <!-- Filter  -->
       <div x-data="filter()" x-init="initializeCategories()">
         <form>
           <div class="flex lg:w-[31.25rem] sm:w-[95%] md:w-full relative">
             <button @click.prevent="toggleDropdown" id="dropdown-button" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200" type="button" x-text="filterItem">
-              <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              
+                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
               </svg>
+
             </button>
             <div id="dropdown" class="z-10 absolute top-[100%] hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44" :class="{ 'hidden': !dropdownOpen }">
               <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
@@ -106,12 +109,15 @@
                 </template>
               </ul>
             </div>
-            <div class="relative w-full">
+
+            <div class="relative w-full max-w-xs">
               <input type="search" id="search-dropdown" name="searchInput" class="p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Search products..." x-model="searchTerm" @input="handleSearch">
               <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                 </svg>
+
                 <span class="sr-only">Search</span>
               </button>
             </div>
@@ -122,7 +128,7 @@
        <!-- Sort Component -->
        <div x-data="sort()" class="flex sm:w-[95%] max-w-[21rem] md:w-full">
         <label for="sort" class="w-20 my-auto font-semibold">Sort by: </label>
-        <select x-model="sorting" @change="handleSort" id="sort" class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+        <select x-model="sorting" @change="handleSort" id="sort" class="p-2.5 w-full max-w-[21rem] text-sm text-gray-900 bg-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
           <option value="default">Default</option>
           <option value="low">Price: Low to High</option>
           <option value="high">Price: High to Low</option>
@@ -155,7 +161,8 @@
           <template x-if="error">
             <div class="mt-28 text-red-500 text-xl font-bold" x-text="error"></div>
           </template>
-
+          
+          <!-- Product card -->
           <template x-if="!loading && !error" x-for="product in filteredProducts" :key="product.id">
             <div class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden">
               <img class="object-contain h-48 mt-3" :src="product.image" :alt="product.title">
@@ -168,9 +175,10 @@
                     </h2>
                   </header>
 
-                  <div x-data="{ stars: Math.round(product.rating.rate) }" class="flex">
+                  <!-- Ratings -->
+                  <div x-data="{ stars: Math.round(product.rating.rate) }" class="flex items-left -ml-2 mb-2">
                     <template x-for="i in 5">
-                      <svg class="w-4 h-4" :class="i <= stars ? 'text-yellow-300' : 'text-gray-300'" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" :class="i <= stars ? 'text-yellow-300' : 'text-gray-300'" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                         <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                       </svg>
                     </template>
@@ -203,6 +211,9 @@
           </template>
         </div>
       </div>
+
+     
+
     </main>
   
  
